@@ -31,8 +31,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.StringTokenizer;
 
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomContainerSet;
@@ -69,7 +67,6 @@ import org.openscience.cdk.io.inchi.INChIContentProcessorTool;
  *
  * @see     org.openscience.cdk.io.INChIReader
  */
-@TestClass("org.openscience.cdk.io.INChIPlainTextReaderTest")
 public class INChIPlainTextReader extends DefaultChemObjectReader {
 
     private BufferedReader            input;
@@ -94,13 +91,11 @@ public class INChIPlainTextReader extends DefaultChemObjectReader {
         this(new StringReader(""));
     }
 
-    @TestMethod("testGetFormat")
     @Override
     public IResourceFormat getFormat() {
         return INChIPlainTextFormat.getInstance();
     }
 
-    @TestMethod("testSetReader_Reader")
     @Override
     public void setReader(Reader input) {
         if (input instanceof BufferedReader) {
@@ -110,7 +105,6 @@ public class INChIPlainTextReader extends DefaultChemObjectReader {
         }
     }
 
-    @TestMethod("testSetReader_InputStream")
     @Override
     public void setReader(InputStream input) throws CDKException {
         setReader(new InputStreamReader(input));
@@ -121,7 +115,6 @@ public class INChIPlainTextReader extends DefaultChemObjectReader {
      */
     private void init() {}
 
-    @TestMethod("testAccepts")
     @Override
     public boolean accepts(Class<? extends IChemObject> classObject) {
         if (IChemFile.class.equals(classObject)) return true;
@@ -172,12 +165,16 @@ public class INChIPlainTextReader extends DefaultChemObjectReader {
                     // ok, we expect 4 tokens
                     tokenizer.nextToken(); // 1.12Beta not stored since never used
                     final String formula = tokenizer.nextToken(); // C6H6
-                    final String connections = tokenizer.nextToken().substring(1); // 1-2-4-6-5-3-1
+                    String connections = null;
+                    if (tokenizer.hasMoreTokens()) {
+                        connections = tokenizer.nextToken().substring(1); // 1-2-4-6-5-3-1
+                    }
                     //final String hydrogens = tokenizer.nextToken().substring(1); // 1-6H
 
                     IAtomContainer parsedContent = inchiTool.processFormula(
                             cf.getBuilder().newInstance(IAtomContainer.class), formula);
-                    inchiTool.processConnections(connections, parsedContent, -1);
+                    if (connections != null)
+                        inchiTool.processConnections(connections, parsedContent, -1);
 
                     IAtomContainerSet moleculeSet = cf.getBuilder().newInstance(IAtomContainerSet.class);
                     moleculeSet.addAtomContainer(cf.getBuilder().newInstance(IAtomContainer.class, parsedContent));
@@ -195,7 +192,6 @@ public class INChIPlainTextReader extends DefaultChemObjectReader {
         return cf;
     }
 
-    @TestMethod("testClose")
     @Override
     public void close() throws IOException {
         input.close();

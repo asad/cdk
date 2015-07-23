@@ -25,10 +25,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.openscience.cdk.CDKConstants;
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.config.AtomTypeFactory;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtom;
@@ -53,9 +52,7 @@ import org.openscience.cdk.tools.manipulator.BondManipulator;
  * @cdk.created    2007-07-20
  * @cdk.module     core
  * @cdk.githash
- * @cdk.bug        1802998
  */
-@TestClass("org.openscience.cdk.atomtype.CDKAtomTypeMatcherTest")
 public class CDKAtomTypeMatcher implements IAtomTypeMatcher {
 
     public final static int                                                  REQUIRE_NOTHING            = 1;
@@ -63,32 +60,32 @@ public class CDKAtomTypeMatcher implements IAtomTypeMatcher {
 
     private AtomTypeFactory                                                  factory;
     private int                                                              mode;
+    
+    private final static Object                                              lock                       = new Object();
 
-    private static Map<Integer, Map<IChemObjectBuilder, CDKAtomTypeMatcher>> factories                  = new Hashtable<Integer, Map<IChemObjectBuilder, CDKAtomTypeMatcher>>(
-                                                                                                                1);
+    private static Map<Integer, Map<IChemObjectBuilder, CDKAtomTypeMatcher>> factories                  = new ConcurrentHashMap<>(5);
 
     private CDKAtomTypeMatcher(IChemObjectBuilder builder, int mode) {
         factory = AtomTypeFactory.getInstance("org/openscience/cdk/dict/data/cdk-atom-types.owl", builder);
         this.mode = mode;
     }
 
-    @TestMethod("testGetInstance_IChemObjectBuilder")
     public static CDKAtomTypeMatcher getInstance(IChemObjectBuilder builder) {
         return getInstance(builder, REQUIRE_NOTHING);
     }
 
-    @TestMethod("testGetInstance_IChemObjectBuilder_int")
     public static CDKAtomTypeMatcher getInstance(IChemObjectBuilder builder, int mode) {
-        if (!factories.containsKey(mode))
-            factories.put(mode, new Hashtable<IChemObjectBuilder, CDKAtomTypeMatcher>(1));
-        if (!factories.get(mode).containsKey(builder))
-            factories.get(mode).put(builder, new CDKAtomTypeMatcher(builder, mode));
-        return factories.get(mode).get(builder);
+        synchronized (lock) {
+            if (!factories.containsKey(mode))
+                factories.put(mode, new Hashtable<IChemObjectBuilder, CDKAtomTypeMatcher>(1));
+            if (!factories.get(mode).containsKey(builder))
+                factories.get(mode).put(builder, new CDKAtomTypeMatcher(builder, mode));
+            return factories.get(mode).get(builder);
+        }
     }
 
     /** {@inheritDoc} */
     @Override
-    @TestMethod("testFindMatchingAtomType_IAtomContainer")
     public IAtomType[] findMatchingAtomTypes(IAtomContainer atomContainer) throws CDKException {
         IAtomType[] types = new IAtomType[atomContainer.getAtomCount()];
         int typeCounter = 0;
@@ -101,7 +98,6 @@ public class CDKAtomTypeMatcher implements IAtomTypeMatcher {
 
     /** {@inheritDoc} */
     @Override
-    @TestMethod("testFindMatchingAtomType_IAtomContainer_IAtom")
     public IAtomType findMatchingAtomType(IAtomContainer atomContainer, IAtom atom) throws CDKException {
         IAtomType type = null;
         if (atom instanceof IPseudoAtom) {

@@ -25,8 +25,6 @@
 package org.openscience.cdk.smiles;
 
 import org.openscience.cdk.CDKConstants;
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.aromaticity.Aromaticity;
 import org.openscience.cdk.atomtype.CDKAtomTypeMatcher;
 import org.openscience.cdk.exception.CDKException;
@@ -66,8 +64,9 @@ import java.util.List;
  * @cdk.bug 1931262
  *
  * @cdk.threadnonsafe
+ * @deprecated Use the newer {@link org.openscience.cdk.aromaticity.Kekulization}
  */
-@TestClass("org.openscience.cdk.smiles.DeduceBondSystemToolTest")
+@Deprecated
 public class DeduceBondSystemTool {
 
     private AllRingsFinder      allRingsFinder;
@@ -80,7 +79,6 @@ public class DeduceBondSystemTool {
     /**
      * Constructor for the DeduceBondSystemTool object.
      */
-    @TestMethod("testConstructors")
     public DeduceBondSystemTool() {
         allRingsFinder = new AllRingsFinder();
     }
@@ -90,7 +88,6 @@ public class DeduceBondSystemTool {
      *
      * @param ringFinder a custom {@link AllRingsFinder}.
      */
-    @TestMethod("testConstructors")
     public DeduceBondSystemTool(AllRingsFinder ringFinder) {
         allRingsFinder = ringFinder;
     }
@@ -103,7 +100,6 @@ public class DeduceBondSystemTool {
      * @return true, if bond orders are properly distributed
      * @throws CDKException thrown when something went wrong
      */
-    @TestMethod("testPyrrole")
     public boolean isOK(IAtomContainer m) throws CDKException {
         // OK, we take advantage here from the fact that this class does not take
         // into account rings larger than 7 atoms. See fixAromaticBondOrders().
@@ -126,7 +122,6 @@ public class DeduceBondSystemTool {
      * @return a {@link IAtomContainer} with assigned double bonds.
      * @throws CDKException if something went wrong.
      */
-    @TestMethod("xtestQuinone,xtestPyrrole")
     public IAtomContainer fixAromaticBondOrders(IAtomContainer atomContainer) throws CDKException {
         // OK, we take advantage here from the fact that this class does not take
         // into account rings larger than 7 atoms. See fixAromaticBondOrders().
@@ -842,7 +837,6 @@ public class DeduceBondSystemTool {
      *
      * @param interrupted true, if the calculation should be canceled
      */
-    @TestMethod("testInterruption")
     public void setInterrupted(boolean interrupted) {
         this.interrupted = interrupted;
     }
@@ -852,7 +846,6 @@ public class DeduceBondSystemTool {
      *
      * @return true or false
      */
-    @TestMethod("testInterruption")
     public boolean isInterrupted() {
         return this.interrupted;
     }

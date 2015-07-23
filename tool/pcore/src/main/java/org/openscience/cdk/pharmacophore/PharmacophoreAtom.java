@@ -19,8 +19,6 @@
 package org.openscience.cdk.pharmacophore;
 
 import org.openscience.cdk.Atom;
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 
 import javax.vecmath.Point3d;
 import java.util.Arrays;
@@ -43,7 +41,6 @@ import java.util.Arrays;
  * @see org.openscience.cdk.pharmacophore.PharmacophoreMatcher
  * @see org.openscience.cdk.pharmacophore.PharmacophoreBond
  */
-@TestClass("org.openscience.cdk.pharmacophore.PharmacophoreAtomTest")
 public class PharmacophoreAtom extends Atom {
 
     private String smarts;
@@ -86,7 +83,6 @@ public class PharmacophoreAtom extends Atom {
      *
      * @param smarts The SMARTS pattern
      */
-    @TestMethod("testGetterSetter")
     public void setSmarts(String smarts) {
         this.smarts = smarts;
     }
@@ -97,7 +93,6 @@ public class PharmacophoreAtom extends Atom {
      * @return The SMARTS pattern
      * @see #setSmarts(String)
      */
-    @TestMethod("testGetterSetter")
     public String getSmarts() {
         return smarts;
     }
@@ -112,10 +107,10 @@ public class PharmacophoreAtom extends Atom {
      * @see #getMatchingAtoms()
      * @see org.openscience.cdk.pharmacophore.PharmacophoreMatcher
      */
-    @TestMethod("testMatchingAtoms")
     public void setMatchingAtoms(int[] atomIndices) {
         this.matchingAtoms = new int[atomIndices.length];
         System.arraycopy(atomIndices, 0, this.matchingAtoms, 0, atomIndices.length);
+        Arrays.sort(matchingAtoms);
     }
 
     /**
@@ -127,34 +122,23 @@ public class PharmacophoreAtom extends Atom {
      * @see #setMatchingAtoms(int[])
      * @see org.openscience.cdk.pharmacophore.PharmacophoreMatcher
      */
-    @TestMethod("testMatchingAtoms")
     public int[] getMatchingAtoms() {
         return matchingAtoms;
     }
 
-    @TestMethod("testEquals")
+    @Override public int hashCode() {
+        int result = smarts != null ? smarts.hashCode() : 0;
+        result = 31 * result + (matchingAtoms != null ? Arrays.hashCode(matchingAtoms) : 0);
+        return result;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PharmacophoreAtom)) return false;
 
-        PharmacophoreAtom patom = (PharmacophoreAtom) o;
-        Arrays.sort(matchingAtoms);
-        int[] tmp = patom.getMatchingAtoms();
-        Arrays.sort(tmp);
-        boolean atomIndicesMatch = true;
-
-        if (matchingAtoms.length == tmp.length) {
-            for (int i = 0; i < matchingAtoms.length; i++) {
-                if (tmp[i] != matchingAtoms[i]) {
-                    atomIndicesMatch = false;
-                    break;
-                }
-            }
-        } else
-            atomIndicesMatch = false;
-
-        return smarts.equals(patom.getSmarts()) && symbol.equals(patom.getSymbol())
-                && point3d.equals(patom.getPoint3d()) && atomIndicesMatch;
+        PharmacophoreAtom that = (PharmacophoreAtom) o;
+        return smarts.equals(that.getSmarts()) && symbol.equals(that.getSymbol())
+                && point3d.equals(that.getPoint3d()) && Arrays.equals(this.matchingAtoms, that.matchingAtoms);
     }
 
 }

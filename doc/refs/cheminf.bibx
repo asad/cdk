@@ -3,7 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xsi:schemaLocation="http://bibtexml.sf.net/ bibtexml.xsd">
 
-  <!-- This file is preferably edited in jEdit with the XML plugin installed -->
+  <!-- DO NOT EDIT. INSTEAD EDIT THIS FILE: https://github.com/cdk/cdk-build-util/blob/master/src/main/resources/net/sf/cdk/tools/doclets/cheminf.bibx -->
 
   <bibtex:entry id="AiresDeSousa2002">
     <bibtex:article>
@@ -1415,6 +1415,18 @@ Method </bibtex:title>
             <bibtex:journal>Canad. J. Math.</bibtex:journal>
             <bibtex:volume>17</bibtex:volume>
             <bibtex:number>449-467</bibtex:number>
+        </bibtex:article>
+    </bibtex:entry>
+    
+    <bibtex:entry id="Pluskal2012">
+        <bibtex:article>
+            <bibtex:title>Highly accurate chemical formula prediction tool utilizing high-resolution mass spectra, MS/MS fragmentation, heuristic rules, and isotope pattern matching</bibtex:title>
+            <bibtex:author>Pluskal, Tomas and Uehara, Taisuke and Yanagida, Mitsuhiro</bibtex:author>
+            <bibtex:year>2012</bibtex:year>
+            <bibtex:journal>Analytical Chemistry</bibtex:journal>
+            <bibtex:volume>84</bibtex:volume>
+            <bibtex:number>10</bibtex:number>
+            <bibtex:pages>4396-4403</bibtex:pages>
         </bibtex:article>
     </bibtex:entry>
     

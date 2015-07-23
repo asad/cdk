@@ -7,7 +7,7 @@
     <parent>
         <artifactId>cdk-base</artifactId>
         <groupId>org.openscience.cdk</groupId>
-        <version>1.5.10-SNAPSHOT</version>
+        <version>1.5.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>cdk-interfaces</artifactId>
@@ -17,7 +17,6 @@
         <dependency>
             <groupId>java3d</groupId>
             <artifactId>vecmath</artifactId>
-            <version>1.5.2</version>
         </dependency>
         <dependency>
         	<groupId>junit</groupId>

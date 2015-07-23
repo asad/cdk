@@ -7,7 +7,7 @@
     <parent>
         <artifactId>cdk-tool</artifactId>
         <groupId>org.openscience.cdk</groupId>
-        <version>1.5.10-SNAPSHOT</version>
+        <version>1.5.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>cdk-pcore</artifactId>
@@ -17,7 +17,6 @@
         <dependency>
             <groupId>java3d</groupId>
             <artifactId>vecmath</artifactId>
-            <version>1.5.2</version>
         </dependency>
         <dependency>
             <groupId>xom</groupId>
@@ -46,12 +45,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>cdk-annotation</artifactId>
+            <artifactId>cdk-data</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>cdk-data</artifactId>
+            <artifactId>cdk-silent</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

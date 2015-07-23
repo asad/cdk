@@ -21,8 +21,6 @@ package org.openscience.cdk.smiles.smarts;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.aromaticity.Aromaticity;
 import org.openscience.cdk.aromaticity.ElectronDonation;
 import org.openscience.cdk.exception.CDKException;
@@ -109,10 +107,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @cdk.githash
  * @cdk.keyword SMARTS
  * @cdk.keyword substructure search
- * @cdk.bug 1760973
- * @cdk.bug 1761027
  */
-@TestClass("org.openscience.cdk.smiles.smarts.SMARTSQueryToolTest")
 public class SMARTSQueryTool {
 
     private static ILoggingTool logger        = LoggingToolFactory.createLoggingTool(SMARTSQueryTool.class);
@@ -287,7 +282,6 @@ public class SMARTSQueryTool {
      * @see ElectronDonation
      * @see Cycles
      */
-    @TestMethod("setAromaticity,nullAromaticity")
     public void setAromaticity(Aromaticity aromaticity) {
         this.aromaticity = checkNotNull(aromaticity, "aromaticity was not provided");
     }
@@ -297,7 +291,6 @@ public class SMARTSQueryTool {
      *
      * @return The SMARTS pattern
      */
-    @TestMethod("testQueryTool")
     public String getSmarts() {
         return smarts;
     }
@@ -308,7 +301,6 @@ public class SMARTSQueryTool {
      * @param smarts The new SMARTS pattern
      * @throws CDKException if there is an error in parsing the pattern
      */
-    @TestMethod("testQueryTool, testQueryToolResetSmart")
     public void setSmarts(String smarts) throws CDKException {
         this.smarts = smarts;
         initializeQuery();
@@ -350,7 +342,6 @@ public class SMARTSQueryTool {
      * @see #countMatches()
      * @see #matches(org.openscience.cdk.interfaces.IAtomContainer)
      */
-    @TestMethod("testQueryTool, testQueryToolSingleAtomCase, testQuery")
     public boolean matches(IAtomContainer atomContainer, boolean forceInitialization) throws CDKException {
 
         if (this.atomContainer == atomContainer) {
@@ -386,7 +377,6 @@ public class SMARTSQueryTool {
      *
      * @return The number of times the pattern was found in the target molecule
      */
-    @TestMethod("testQueryTool")
     public int countMatches() {
         return mappings.size();
     }
@@ -398,7 +388,6 @@ public class SMARTSQueryTool {
      *
      * @return A List of List of atom indices in the target molecule
      */
-    @TestMethod("testQueryTool")
     public List<List<Integer>> getMatchingAtoms() {
         List<List<Integer>> matched = new ArrayList<List<Integer>>(mappings.size());
         for (int[] mapping : mappings)
@@ -413,7 +402,6 @@ public class SMARTSQueryTool {
      *
      * @return A List of List of atom indices in the target molecule
      */
-    @TestMethod("testUniqueQueries")
     public List<List<Integer>> getUniqueMatchingAtoms() {
         List<List<Integer>> matched = new ArrayList<List<Integer>>(mappings.size());
         Set<BitSet> atomSets = Sets.newHashSetWithExpectedSize(mappings.size());

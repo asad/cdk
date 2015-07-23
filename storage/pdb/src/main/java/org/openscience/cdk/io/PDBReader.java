@@ -39,8 +39,6 @@ import javax.vecmath.Point3d;
 
 import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.DefaultChemObjectBuilder;
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.config.AtomTypeFactory;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.NoSuchAtomTypeException;
@@ -89,7 +87,6 @@ import org.openscience.cdk.tools.manipulator.AtomTypeManipulator;
  * @cdk.bug     1714141
  * @cdk.bug     1794439
  */
-@TestClass("org.openscience.cdk.io.PDBReaderTest")
 public class PDBReader extends DefaultChemObjectReader {
 
     private static ILoggingTool    logger            = LoggingToolFactory.createLoggingTool(PDBReader.class);
@@ -151,13 +148,11 @@ public class PDBReader extends DefaultChemObjectReader {
         this(new StringReader(""));
     }
 
-    @TestMethod("testGetFormat")
     @Override
     public IResourceFormat getFormat() {
         return PDBFormat.getInstance();
     }
 
-    @TestMethod("testSetReader_Reader")
     @Override
     public void setReader(Reader input) throws CDKException {
         if (input instanceof BufferedReader) {
@@ -167,13 +162,11 @@ public class PDBReader extends DefaultChemObjectReader {
         }
     }
 
-    @TestMethod("testSetReader_InputStream")
     @Override
     public void setReader(InputStream input) throws CDKException {
         setReader(new InputStreamReader(input));
     }
 
-    @TestMethod("testAccepts")
     @Override
     public boolean accepts(Class<? extends IChemObject> classObject) {
         Class<?>[] interfaces = classObject.getInterfaces();
@@ -651,19 +644,19 @@ public class PDBReader extends DefaultChemObjectReader {
             oAtom.setAtomTypeName(oAtom.getResName() + "." + rawAtomName);
         }
         if (lineLength >= 59) {
-            String frag = cLine.substring(54, 60).trim();
+            String frag = cLine.substring(54, Math.min(lineLength, 60)).trim();
             if (frag.length() > 0) {
                 oAtom.setOccupancy(Double.parseDouble(frag));
             }
         }
         if (lineLength >= 65) {
-            String frag = cLine.substring(60, 66).trim();
+            String frag = cLine.substring(60, Math.min(lineLength, 66)).trim();
             if (frag.length() > 0) {
                 oAtom.setTempFactor(Double.parseDouble(frag));
             }
         }
         if (lineLength >= 75) {
-            oAtom.setSegID(cLine.substring(72, 76).trim());
+            oAtom.setSegID(cLine.substring(72, Math.min(lineLength, 76)).trim());
         }
         //		if (lineLength >= 78) {
         //            oAtom.setSymbol((new String(cLine.substring(76, 78))).trim());
@@ -738,7 +731,6 @@ public class PDBReader extends DefaultChemObjectReader {
         }
     }
 
-    @TestMethod("testClose")
     @Override
     public void close() throws IOException {
         _oInput.close();

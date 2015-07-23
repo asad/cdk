@@ -35,8 +35,6 @@ import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
@@ -84,7 +82,6 @@ import org.openscience.cdk.tools.LoggingToolFactory;
  * @cdk.keyword    file format, SDF
  * @cdk.iooptions
  */
-@TestClass("org.openscience.cdk.io.iterator.IteratingSDFReaderTest")
 public class IteratingSDFReader extends DefaultIteratingChemObjectReader<IAtomContainer> {
 
     private BufferedReader                                  input;
@@ -135,7 +132,6 @@ public class IteratingSDFReader extends DefaultIteratingChemObjectReader<IAtomCo
      * @param  in  The InputStream to read from
      * @param builder The builder
      */
-    @TestMethod("testReadDataItems")
     public IteratingSDFReader(InputStream in, IChemObjectBuilder builder) {
         this(new InputStreamReader(in), builder);
     }
@@ -175,7 +171,6 @@ public class IteratingSDFReader extends DefaultIteratingChemObjectReader<IAtomCo
         setSkip(skip);
     }
 
-    @TestMethod("testGetFormat")
     @Override
     public IResourceFormat getFormat() {
         return currentFormat;
@@ -237,7 +232,7 @@ public class IteratingSDFReader extends DefaultIteratingChemObjectReader<IAtomCo
                 // do MDL molfile version checking
                 Matcher versionMatcher = MDL_VERSION.matcher(currentLine);
                 if (versionMatcher.find()) {
-                    currentFormat = versionMatcher.group(1) != null ? (IChemFormat) MDLV2000Format.getInstance()
+                    currentFormat = "2000".equals(versionMatcher.group(1)) ? (IChemFormat) MDLV2000Format.getInstance()
                             : (IChemFormat) MDLV3000Format.getInstance();
                 }
 
@@ -375,7 +370,6 @@ public class IteratingSDFReader extends DefaultIteratingChemObjectReader<IAtomCo
         return nextMolecule;
     }
 
-    @TestMethod("testClose")
     @Override
     public void close() throws IOException {
         input.close();
@@ -386,7 +380,6 @@ public class IteratingSDFReader extends DefaultIteratingChemObjectReader<IAtomCo
         throw new UnsupportedOperationException();
     }
 
-    @TestMethod("testSetReader_Reader")
     @Override
     public void setReader(Reader reader) {
         if (reader instanceof BufferedReader) {
@@ -399,7 +392,6 @@ public class IteratingSDFReader extends DefaultIteratingChemObjectReader<IAtomCo
         hasNext = false;
     }
 
-    @TestMethod("testSetReader_InputStream")
     @Override
     public void setReader(InputStream reader) {
         setReader(new InputStreamReader(reader));

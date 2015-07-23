@@ -172,7 +172,7 @@ TOKEN_MGR_DECLS : {
     |
     <R_BRACKET : "]" > 
     |
-    <DOLLAR : "$" > 
+    <DOLLAR : "$" >  // also quad bond
     |
     <PLUS: "+" >
 }
@@ -521,7 +521,9 @@ void SimpleBond() #SimpleBond : {}
         <D_BOND> 
         | 
         <T_BOND> 
-        | 
+        |
+        <DOLLAR> 
+        |
         <AR_BOND> 
         | 
         <ANY_BOND> 
@@ -728,7 +730,7 @@ void RingMembership() #RingMembership :
 void SmallestRingSize() #SmallestRingSize : 
 { StringBuffer digits = new StringBuffer(); }
 {
-    <r> { jjtThis.setSize(1); } 
+    <r> { jjtThis.setSize(-1); }
     [ ( <DIGIT> { digits.append(token.image); } )+ 
     { jjtThis.setSize( Integer.parseInt(digits.toString()) ); } ]
 }

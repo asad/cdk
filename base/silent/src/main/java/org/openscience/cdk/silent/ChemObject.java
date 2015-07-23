@@ -24,13 +24,13 @@
 package org.openscience.cdk.silent;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.common.base.Objects;
 import org.openscience.cdk.CDKConstants;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.interfaces.IChemObject;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.interfaces.IChemObjectChangeEvent;
@@ -153,7 +153,7 @@ public class ChemObject implements Serializable, IChemObject, Cloneable {
      */
     private Map<Object, Object> lazyProperties() {
         if (properties == null) {
-            properties = new LinkedHashMap<Object, Object>();
+            properties = new LinkedHashMap<>(4);
         }
         return properties;
     }
@@ -182,10 +182,11 @@ public class ChemObject implements Serializable, IChemObject, Cloneable {
      */
     @Override
     public void removeProperty(Object description) {
-        if (properties == null) {
-            return;
+        if (properties != null) {
+            properties.remove(description);
+            if (properties.isEmpty())
+                properties = null;
         }
-        lazyProperties().remove(description);
     }
 
     /**
@@ -211,7 +212,6 @@ public class ChemObject implements Serializable, IChemObject, Cloneable {
     /**
      * @inheritDoc
      */
-    @TestMethod("testGetProperty_Object_Class,testGetProperty_Object_ClassCast")
     @Override
     public <T> T getProperty(Object description, Class<T> c) {
         Object value = lazyProperties().get(description);
@@ -239,7 +239,8 @@ public class ChemObject implements Serializable, IChemObject, Cloneable {
      */
     @Override
     public Map<Object, Object> getProperties() {
-        return lazyProperties();
+        return properties == null ? Collections.emptyMap()
+                                  : Collections.unmodifiableMap(properties);
     }
 
     /**

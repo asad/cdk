@@ -579,6 +579,13 @@ public class SMARTSSearchTest extends CDKTestCase {
     }
 
     @Test
+    public void quadBond() throws Exception {
+        int[] results = match("*$*", "[Re]$[Re]");
+        Assert.assertEquals(2, results[0]);
+        Assert.assertEquals(1, results[1]);
+    }
+    
+    @Test
     public void testPropertyValence1() throws Exception {
         int[] results = match("[v4]", "C");
         Assert.assertEquals(1, results[0]);
@@ -1993,5 +2000,29 @@ public class SMARTSSearchTest extends CDKTestCase {
         assertThat(match("([#8]).([#8])", "O=O"), is(new int[]{0, 0}));
         assertThat(match("([#8]).([#8])", "OCCO"), is(new int[]{0, 0}));
         assertThat(match("([#8]).([#8])", "O.CCO"), is(new int[]{2, 1}));
+    }
+
+    /**
+     * Ensure a class cast exception is not thrown when matching stereochemistry. 
+     * @cdk.bug 1358
+     */
+    @Test
+    public void bug1358() throws Exception {
+        assertThat(match("[$([*@](~*)(~*)(*)*),$([*@H](*)(*)*),$([*@](~*)(*)*)]",
+                         "N#CN/C(=N/CCSCC=1N=CNC1C)NC"), is(new int[]{0, 0}));        
+    }
+
+    /**
+     * Ensure 'r' without a size is equivalent to !R0 and R.
+     * @cdk.bug 1364
+     */
+    @Test
+    public void bug1364() throws Exception {
+        assertThat(match("[!R0!R1]", "C[C@]12CC3CC([NH2+]CC(=O)NCC4CC4)(C1)C[C@@](C)(C3)C2"),
+                   is(new int[]{7, 7}));
+        assertThat(match("[R!R1]", "C[C@]12CC3CC([NH2+]CC(=O)NCC4CC4)(C1)C[C@@](C)(C3)C2"),
+                   is(new int[]{7, 7}));
+        assertThat(match("[r!R1]", "C[C@]12CC3CC([NH2+]CC(=O)NCC4CC4)(C1)C[C@@](C)(C3)C2"),
+                   is(new int[]{7, 7}));
     }
 }

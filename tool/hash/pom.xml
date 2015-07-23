@@ -7,7 +7,7 @@
     <parent>
         <artifactId>cdk-tool</artifactId>
         <groupId>org.openscience.cdk</groupId>
-        <version>1.5.10-SNAPSHOT</version>
+        <version>1.5.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>cdk-hash</artifactId>
@@ -17,7 +17,6 @@
         <dependency>
             <groupId>java3d</groupId>
             <artifactId>vecmath</artifactId>
-            <version>1.5.2</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -33,11 +32,6 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <scope>test</scope>
-        </dependency>
-            <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>cdk-annotation</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

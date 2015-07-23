@@ -38,8 +38,6 @@ import java.util.zip.CRC32;
 import javax.vecmath.Point2d;
 import javax.vecmath.Point3d;
 
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -74,6 +72,12 @@ import org.openscience.cdk.interfaces.IBond;
  *
  *  <p>For the FCFP class of fingerprints, atom typing is done using a scheme similar to that described by
  *  Green et al {@cdk.cite Green1994}.</p>
+ *  
+ *  <p>The fingerprints and their uses have been described in the literature: A.M. Clark, M. Sarker, E. Ekins,
+ *  "New target prediction and visualization tools incorporating open source molecular fingerprints for TB Mobile 2.0",
+ *  Journal of Cheminformatics, 6:38 (2014).</p>
+ *  
+ *  	<a href="http://www.jcheminf.com/content/6/1/38">http://www.jcheminf.com/content/6/1/38</a>
  *
  * @author         am.clark
  * @cdk.created    2014-01-01
@@ -82,7 +86,6 @@ import org.openscience.cdk.interfaces.IBond;
  * @cdk.module     standard
  * @cdk.githash
  */
-@TestClass("org.openscience.cdk.fingerprint.CircularFingerprinterTest")
 public class CircularFingerprinter implements IFingerprinter {
 
     // ------------ constants ------------
@@ -253,7 +256,6 @@ public class CircularFingerprinter implements IFingerprinter {
      * @param  mol IAtomContainer for which the fingerprint should be calculated.
      * @return the fingerprint
      */
-    @TestMethod("testGetBitFingerprint")
     @Override
     public IBitFingerprint getBitFingerprint(IAtomContainer mol) throws CDKException {
         calculate(mol);
@@ -273,7 +275,6 @@ public class CircularFingerprinter implements IFingerprinter {
      * @param  mol IAtomContainer for which the fingerprint should be calculated.
      * @return the count fingerprint
      */
-    @TestMethod("testGetCountFingerprint")
     @Override
     public ICountFingerprint getCountFingerprint(IAtomContainer mol) throws CDKException {
         calculate(mol);
@@ -866,12 +867,14 @@ public class CircularFingerprinter implements IFingerprinter {
                 xp[n] = (float) (o3d.x - x0);
                 yp[n] = (float) (o3d.y - y0);
                 zp[n] = (float) (o3d.z - z0);
-            } else {
+            } else if (o2d != null) {
                 IBond.Stereo stereo = bond.getStereo();
                 xp[n] = (float) (o2d.x - x0);
                 yp[n] = (float) (o2d.y - y0);
                 zp[n] = other == bond.getAtom(0) ? 0 : stereo == IBond.Stereo.UP ? 1 : stereo == IBond.Stereo.DOWN ? -1
                         : 0;
+            } else {
+                return null; // no 2D coordinates on some atom
             }
 
             final float dx = xp[n] - x0, dy = yp[n] - y0, dz = zp[n] - z0;

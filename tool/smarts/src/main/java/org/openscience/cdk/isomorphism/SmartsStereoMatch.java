@@ -26,8 +26,6 @@ package org.openscience.cdk.isomorphism;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
@@ -56,7 +54,6 @@ import static org.openscience.cdk.interfaces.ITetrahedralChirality.Stereo.CLOCKW
  * @cdk.module smarts
  * @cdk.githash
  */
-@TestClass("org.openscience.cdk.isomorphism.SmartsStereoMatchTest")
 public final class SmartsStereoMatch implements Predicate<int[]> {
 
     /** Query and target contains. */
@@ -109,7 +106,6 @@ public final class SmartsStereoMatch implements Predicate<int[]> {
      * @param mapping permutation of the query vertices
      * @return the stereo chemistry is value
      */
-    @TestMethod("tetrahedral_match,tetrahedral_mismatch")
     @Override
     public boolean apply(final int[] mapping) {
         for (final int u : queryStereoIndices) {
@@ -136,6 +132,9 @@ public final class SmartsStereoMatch implements Predicate<int[]> {
     private boolean checkTetrahedral(int u, int[] mapping) {
 
         int v = mapping[u];
+        
+        if (targetTypes[v] != null && targetTypes[v] != Type.Tetrahedral)
+            return false;
 
         ITetrahedralChirality queryElement = (ITetrahedralChirality) queryElements[u];
         ITetrahedralChirality targetElement = (ITetrahedralChirality) targetElements[v];
@@ -191,6 +190,11 @@ public final class SmartsStereoMatch implements Predicate<int[]> {
 
         int v1 = mapping[u1];
         int v2 = mapping[u2];
+
+        if (targetTypes[v1] != null && targetTypes[v1] != Type.Geometric)
+            return false;
+        if (targetTypes[v2] != null && targetTypes[v2] != Type.Geometric)
+            return false;
 
         IDoubleBondStereochemistry queryElement = (IDoubleBondStereochemistry) queryElements[u1];
         IBond[] queryBonds = queryElement.getBonds();

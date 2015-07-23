@@ -7,9 +7,9 @@
     <groupId>org.openscience.cdk</groupId>
     <artifactId>cdk</artifactId>
     <name>cdk</name>
-    <version>1.5.10-SNAPSHOT</version>
+    <description>Modular library for Cheminformatics</description>
+    <version>1.5.11-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <url>http://sourceforge.net/projects/cdk/</url>
 
     <modules>
@@ -36,19 +36,29 @@
         </license>
     </licenses>
 
+    <scm>
+        <url>https://github.com/cdk/cdk</url>
+        <connection>scm:git:git://github.com/cdk/cdk.git</connection>
+        <developerConnection>scm:git:git@github.com:cdk/cdk.git
+        </developerConnection>
+    </scm>
+
+    <issueManagement>
+        <url>http://sourceforge.net/p/cdk/bugs/</url>
+        <system>SourceForge Tracker</system>
+    </issueManagement>
+
     <!-- define the cdk.repo.url and cdk.repo.snapshots.url properties in 
          ~/.m2/settings.xml -->
     <distributionManagement>
-        <repository>
-            <id>cdk-repo</id>
-            <name>CDK Repository</name>
-            <url>${cdk.repo.url}</url>
-        </repository>
         <snapshotRepository>
-            <id>cdk-repo-snapshots</id>
-            <name>CDK Snapshot Repository</name>
-            <url>${cdk.repo.snapshots.url}</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
         <!-- site is staged and then copied to a sub-folder of gh-pages, no
              url is provided but the field is needed to stage the site. -->
         <site>
@@ -68,6 +78,8 @@
         </developer>
         <developer>
             <name>Egon Willighagen</name>
+            <email>egonw@users.sf.net</email>
+            <url>http://chem-bla-ics.blogspot.com</url>
         </developer>
         <developer>
             <name>Rajarshi Guha</name>
@@ -77,9 +89,8 @@
         </developer>
         <developer>
             <name>John May</name>
+            <email>john@nextmovesoftware.com</email>
             <url>http://www.github.com/johnmay/</url>
-            <organization>EMBL-EBI</organization>
-            <organizationUrl>http://ebi.ac.uk</organizationUrl>
             <timezone>GMT</timezone>
         </developer>
     </developers>
@@ -333,57 +344,8 @@
         </contributor>
     </contributors>
 
-    <repositories>
-        <repository>
-            <id>ebi-repo</id>
-            <name>EBI Maven Repository</name>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>ebi-repo-snapshots</id>
-            <name>EBI Maven Snapshots Repository</name>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>interval:7200</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>ebi-repo-3rd</id>
-            <name>EBI Maven Snapshots Repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <id>jni-inchi</id>
-            <name>JNI-InChI Maven Repository</name>
-            <url>http://jni-inchi.sourceforge.net/m2repo</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
+    <!-- Plugin repository (EBI) is required for cdk-build-utils and
+         ojdcheck to build the javadoc. -->
     <pluginRepositories>
         <pluginRepository>
             <id>ebi-repo</id>
@@ -408,12 +370,12 @@
             <dependency>
                 <groupId>uk.ac.ebi.beam</groupId>
                 <artifactId>beam-core</artifactId>
-                <version>0.7</version>
+                <version>0.8</version>
             </dependency>
             <dependency>
                 <groupId>uk.ac.ebi.beam</groupId>
                 <artifactId>beam-func</artifactId>
-                <version>0.7</version>
+                <version>0.8</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -439,6 +401,21 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
                 <version>1.9.5</version>
+            </dependency>
+            <dependency>
+                <groupId>java3d</groupId>
+                <artifactId>vecmath</artifactId>
+                <version>1.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>gov.nist.math</groupId>
+                <artifactId>jama</artifactId>
+                <version>1.0.3</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jni-inchi</groupId>
+                <artifactId>jni-inchi</artifactId>
+                <version>0.8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -539,13 +516,14 @@
                             <tagletClass>net.sf.cdk.tools.doclets.CDKThreadSafeTaglet</tagletClass>
                         </taglet>
                         <taglet>
-                            <tagletClass>net.sf.cdk.tools.doclets.CDKThreadNonSafeTaglet</tagletClass>
+                            <tagletClass>net.sf.cdk.tools.doclets.CDKThreadNonSafeTaglet
+                            </tagletClass>
                         </taglet>
                     </taglets>
                     <tagletArtifact>
                         <groupId>org.openscience.cdk</groupId>
                         <artifactId>cdk-build-utils</artifactId>
-                        <version>1.0.2.3</version>
+                        <version>1.0.2.4</version>
                     </tagletArtifact>
                 </configuration>
                 <executions>
@@ -579,7 +557,7 @@
                         <version>1.0.2.3</version>
                     </dependency>
                 </dependencies>
-            </plugin>          
+            </plugin>
             <plugin>
                 <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
                 <artifactId>maven-java-formatter-plugin</artifactId>
@@ -596,7 +574,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            
+
         </plugins>
         <pluginManagement>
             <plugins>
@@ -693,13 +671,71 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>ossrh</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.3</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <dependencies>
-    	<dependency>
-    		<groupId>junit</groupId>
-    		<artifactId>junit</artifactId>
-    		<scope>test</scope>
-    	</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

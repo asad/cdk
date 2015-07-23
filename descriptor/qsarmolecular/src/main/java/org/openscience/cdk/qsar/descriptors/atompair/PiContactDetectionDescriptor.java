@@ -21,7 +21,6 @@ package org.openscience.cdk.qsar.descriptors.atompair;
 
 import java.util.List;
 
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.aromaticity.Aromaticity;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.graph.invariant.ConjugatedPiSystemsDetector;
@@ -38,7 +37,7 @@ import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 /**
  * This class checks if two atoms have pi-contact (this is true when there is
  * one and the same conjugated pi-system which contains both atoms, or directly
- * linked neighboors of the atoms).
+ * linked neighbours of the atoms).
  *
  * <p>This descriptor uses these parameters:
  * <table border="1">
@@ -127,7 +126,6 @@ public class PiContactDetectionDescriptor extends AbstractAtomPairDescriptor imp
         return params;
     }
 
-    @TestMethod(value = "testNamesConsistency")
     @Override
     public String[] getDescriptorNames() {
         return NAMES;
@@ -197,7 +195,7 @@ public class PiContactDetectionDescriptor extends AbstractAtomPairDescriptor imp
     }
 
     /**
-     * Gets if neighboors of an atom are in an atom container.
+     * Gets if neighbours of an atom are in an atom container.
      *
      * @param  neighs  array of atoms
      * @param  ac      AtomContainer

@@ -24,7 +24,6 @@
  */
 package org.openscience.cdk;
 
-import org.openscience.cdk.annotations.TestClass;
 import org.openscience.cdk.interfaces.IBond;
 
 /**
@@ -41,7 +40,6 @@ import org.openscience.cdk.interfaces.IBond;
  * @cdk.keyword bond order
  * @cdk.keyword stereochemistry
  */
-@TestClass("org.openscience.cdk.CDKConstantsTest")
 public class CDKConstants {
 
     public final static Object      UNSET                        = null;
@@ -185,7 +183,7 @@ public class CDKConstants {
      * 		written with a lower case letter, e.g. 'c' rather than 'C'</li>
      * </ul>
      */
-    public final static int         SINGLE_OR_DOUBLE             = 12;
+    public final static int         SINGLE_OR_DOUBLE             = 1 << 12;
     /**
      * Maximum flags array index. Please update this if the value exceeds 16 -
      * the flags are currently stored as a single short value (16-bit) in the

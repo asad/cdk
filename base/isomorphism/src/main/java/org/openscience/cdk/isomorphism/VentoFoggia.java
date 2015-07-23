@@ -24,8 +24,6 @@
 
 package org.openscience.cdk.isomorphism;
 
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.graph.GraphUtil;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.isomorphism.matchers.IQueryAtomContainer;
@@ -73,7 +71,6 @@ import static org.openscience.cdk.graph.GraphUtil.EdgeToBondMap;
  * @author John May
  * @cdk.module isomorphism
  */
-@TestClass("org.openscience.cdk.isomorphism.VentoFoggiaTest")
 public final class VentoFoggia extends Pattern {
 
     /** The query structure. */
@@ -116,14 +113,12 @@ public final class VentoFoggia extends Pattern {
     }
 
     /** @inheritDoc */
-    @TestMethod("benzeneIdentical,benzeneSubsearch")
     @Override
     public int[] match(IAtomContainer target) {
         return matchAll(target).stereochemistry().first();
     }
 
     /** @inheritDoc */
-    @TestMethod("benzeneIdentical,benzeneSubsearch")
     @Override
     public Mappings matchAll(final IAtomContainer target) {
         EdgeToBondMap bonds2 = EdgeToBondMap.withSpaceFor(target);
@@ -140,11 +135,11 @@ public final class VentoFoggia extends Pattern {
      * @param query the substructure to find
      * @return a pattern for finding the {@code query}
      */
-    @TestMethod("benzeneSubsearch")
     public static Pattern findSubstructure(IAtomContainer query) {
         boolean isQuery = query instanceof IQueryAtomContainer;
-        return new VentoFoggia(query, isQuery ? AtomMatcher.forQuery() : AtomMatcher.forElement(),
-                isQuery ? BondMatcher.forQuery() : BondMatcher.forOrder(), true);
+        return findSubstructure(query,
+                                isQuery ? AtomMatcher.forQuery() : AtomMatcher.forElement(),
+                                isQuery ? BondMatcher.forQuery() : BondMatcher.forOrder());
     }
 
     /**
@@ -154,11 +149,37 @@ public final class VentoFoggia extends Pattern {
      * @param query the substructure to find
      * @return a pattern for finding the {@code query}
      */
-    @TestMethod("benzeneIdentical")
     public static Pattern findIdentical(IAtomContainer query) {
         boolean isQuery = query instanceof IQueryAtomContainer;
-        return new VentoFoggia(query, isQuery ? AtomMatcher.forQuery() : AtomMatcher.forElement(),
-                isQuery ? BondMatcher.forQuery() : BondMatcher.forOrder(), false);
+        return findIdentical(query,
+                             isQuery ? AtomMatcher.forQuery() : AtomMatcher.forElement(),
+                             isQuery ? BondMatcher.forQuery() : BondMatcher.forOrder());
+    }
+
+    /**
+     * Create a pattern which can be used to find molecules which contain the
+     * {@code query} structure.
+     *
+     * @param query the substructure to find
+     * @param atomMatcher how atoms are matched
+     * @param bondMatcher how bonds are matched
+     * @return a pattern for finding the {@code query}
+     */
+    public static Pattern findSubstructure(IAtomContainer query, AtomMatcher atomMatcher, BondMatcher bondMatcher) {
+        return new VentoFoggia(query, atomMatcher, bondMatcher, true);
+    }
+
+    /**
+     * Create a pattern which can be used to find molecules which are the same
+     * as the {@code query} structure.
+     *
+     * @param query the substructure to find
+     * @param atomMatcher how atoms are matched
+     * @param bondMatcher how bonds are matched
+     * @return a pattern for finding the {@code query}
+     */
+    public static Pattern findIdentical(IAtomContainer query, AtomMatcher atomMatcher, BondMatcher bondMatcher) {
+        return new VentoFoggia(query, atomMatcher, bondMatcher, false);
     }
 
     private static final class VFIterable implements Iterable<int[]> {

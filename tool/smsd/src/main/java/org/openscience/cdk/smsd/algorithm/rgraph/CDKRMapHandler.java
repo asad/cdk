@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
-import org.openscience.cdk.annotations.TestClass;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -49,7 +48,6 @@ import org.openscience.cdk.tools.manipulator.BondManipulator;
  * @cdk.githash
  * @author Syed Asad Rahman <asad@ebi.ac.uk>
  */
-@TestClass("org.openscience.cdk.smsd.algorithm.cdk.CDKRMapHandlerTest")
 public class CDKRMapHandler {
 
     public CDKRMapHandler() {
@@ -60,7 +58,7 @@ public class CDKRMapHandler {
      * Returns source molecule
      * @return the source
      */
-    public static IAtomContainer getSource() {
+    public IAtomContainer getSource() {
         return source;
     }
 
@@ -68,7 +66,7 @@ public class CDKRMapHandler {
      * Set source molecule
      * @param aSource the source to set
      */
-    public static void setSource(IAtomContainer aSource) {
+    public void setSource(IAtomContainer aSource) {
         source = aSource;
     }
 
@@ -76,7 +74,7 @@ public class CDKRMapHandler {
      * Returns target molecule
      * @return the target
      */
-    public static IAtomContainer getTarget() {
+    public IAtomContainer getTarget() {
         return target;
     }
 
@@ -84,13 +82,13 @@ public class CDKRMapHandler {
      * Set target molecule
      * @param aTarget the target to set
      */
-    public static void setTarget(IAtomContainer aTarget) {
+    public void setTarget(IAtomContainer aTarget) {
         target = aTarget;
     }
 
     private List<Map<Integer, Integer>> mappings;
-    private static IAtomContainer       source;
-    private static IAtomContainer       target;
+    private IAtomContainer       source;
+    private IAtomContainer       target;
     private boolean                     timeoutFlag = false;
 
     /**

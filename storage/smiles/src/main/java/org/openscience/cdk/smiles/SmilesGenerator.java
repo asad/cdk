@@ -22,8 +22,6 @@
  */
 package org.openscience.cdk.smiles;
 
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.graph.GraphUtil;
 import org.openscience.cdk.graph.invariant.Canon;
@@ -161,7 +159,6 @@ import java.lang.reflect.Method;
  * @cdk.keyword    SMILES, generator
  * @cdk.module     smiles
  * @cdk.githash
- * @cdk.bug        1793446
  *
  * @see org.openscience.cdk.aromaticity.Aromaticity
  * @see org.openscience.cdk.stereo.Stereocenters
@@ -171,7 +168,6 @@ import java.lang.reflect.Method;
  * @see org.openscience.cdk.CDKConstants
  * @see SmilesParser
  */
-@TestClass("org.openscience.cdk.smiles.SmilesGeneratorTest")
 public final class SmilesGenerator {
 
     private final boolean   isomeric, canonical, aromatic, classes;
@@ -325,7 +321,6 @@ public final class SmilesGenerator {
      * @return the SMILES string
      * @throws CDKException SMILES could not be created
      */
-    @TestMethod("testCisResorcinol,testEthylPropylPhenantren,testAlanin")
     public String create(IAtomContainer molecule) throws CDKException {
         return create(molecule, new int[molecule.getAtomCount()]);
     }
@@ -456,7 +451,6 @@ public final class SmilesGenerator {
      * @deprecated since 1.5.6, use {@link #aromatic} - invoking this method
      *             does nothing
      */
-    @TestMethod("testSFBug956923")
     @Deprecated
     public void setUseAromaticityFlag(boolean useAromaticityFlag) {
 

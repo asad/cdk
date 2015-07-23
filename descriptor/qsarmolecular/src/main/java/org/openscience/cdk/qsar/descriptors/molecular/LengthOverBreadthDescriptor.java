@@ -23,8 +23,6 @@
 package org.openscience.cdk.qsar.descriptors.molecular;
 
 import Jama.Matrix;
-import org.openscience.cdk.annotations.TestClass;
-import org.openscience.cdk.annotations.TestMethod;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.geometry.GeometryUtil;
 import org.openscience.cdk.interfaces.IAtom;
@@ -63,7 +61,6 @@ import javax.vecmath.Point3d;
  * @cdk.set     qsar-descriptors
  * @cdk.dictref qsar-descriptors:lengthOverBreadth
  */
-@TestClass("org.openscience.cdk.qsar.descriptors.molecular.LengthOverBreadthDescriptorTest")
 public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor implements IMolecularDescriptor {
 
     private static ILoggingTool   logger = LoggingToolFactory.createLoggingTool(LengthOverBreadthDescriptor.class);
@@ -80,7 +77,6 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
      *
      * @return The specification value
      */
-    @TestMethod("testGetSpecification")
     @Override
     public DescriptorSpecification getSpecification() {
         return new DescriptorSpecification(
@@ -95,7 +91,6 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
      * @throws org.openscience.cdk.exception.CDKException
      *          Description of the Exception
      */
-    @TestMethod("testSetParameters_arrayObject")
     @Override
     public void setParameters(Object[] params) throws CDKException {
         // no parameters for this descriptor
@@ -106,14 +101,12 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
      *
      * @return The parameters value
      */
-    @TestMethod("testGetParameters")
     @Override
     public Object[] getParameters() {
         return (null);
         // no parameters to return
     }
 
-    @TestMethod(value = "testNamesConsistency")
     @Override
     public String[] getDescriptorNames() {
         return NAMES;
@@ -134,7 +127,6 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
      * @return A {@link org.openscience.cdk.qsar.result.DoubleArrayResult} containing LOBMAX and LOBMIN in that
      *         order
      */
-    @TestMethod("testCalculate_IAtomContainer")
     @Override
     public DescriptorValue calculate(IAtomContainer atomContainer) {
         if (!GeometryUtil.has3DCoordinates(atomContainer))
@@ -157,7 +149,8 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
 
         // get the com
         Point3d com = GeometryUtil.get3DCentreOfMass(atomContainer);
-        if (com == null) return getDummyDescriptorValue(new CDKException("Error in center of mass calculation"));
+        if (com == null) 
+            return getDummyDescriptorValue(new CDKException("Error in center of mass calculation, has exact mass been set on all atoms?"));
 
         // translate everything to COM
         for (int i = 0; i < coords.length; i++) {
@@ -208,7 +201,6 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
      * @return an object that implements the {@link org.openscience.cdk.qsar.result.IDescriptorResult} interface indicating
      *         the actual type of values returned by the descriptor in the {@link org.openscience.cdk.qsar.DescriptorValue} object
      */
-    @TestMethod("testGetDescriptorResultType")
     @Override
     public IDescriptorResult getDescriptorResultType() {
         return new DoubleArrayResultType(2);
@@ -285,7 +277,6 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
      *
      * @return The parameterNames value
      */
-    @TestMethod("testGetParameterNames")
     @Override
     public String[] getParameterNames() {
         // no param names to return
@@ -298,7 +289,6 @@ public class LengthOverBreadthDescriptor extends AbstractMolecularDescriptor imp
      * @param name Description of the Parameter
      * @return The parameterType value
      */
-    @TestMethod("testGetParameterType_String")
     @Override
     public Object getParameterType(String name) {
         return (null);

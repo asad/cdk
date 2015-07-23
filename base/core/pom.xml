@@ -7,7 +7,7 @@
     <parent>
         <artifactId>cdk-base</artifactId>
         <groupId>org.openscience.cdk</groupId>
-        <version>1.5.10-SNAPSHOT</version>
+        <version>1.5.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>cdk-core</artifactId>
@@ -21,11 +21,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>cdk-interfaces</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>cdk-annotation</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
